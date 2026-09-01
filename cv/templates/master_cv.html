@@ -1,0 +1,109 @@
+<!doctype html>
+<!--
+  jobkit CV template - one page, A4, no LaTeX required.
+  Copy to cv/master_cv.html and replace everything in [brackets].
+  Build:  python cv/build.py --template cv/master_cv.html
+  If it spills to two pages, cut content - do not shrink the font below 8.5pt.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CV</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --ink:#111; --mut:#444; --rule:#111;
+    --pad-x:15mm; --pad-y:8mm;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body {
+    width:210mm; min-height:297mm; padding:var(--pad-y) var(--pad-x);
+    font-family: Helvetica, Arial, "Liberation Sans", sans-serif;
+    font-size:9pt; line-height:1.32; color:var(--ink);
+    -webkit-print-color-adjust: exact;
+  }
+  header { text-align:center; }
+  h1 { font-size:17pt; letter-spacing:.02em; margin:0 0 2pt; text-transform:uppercase; }
+  .role { font-size:9pt; margin:0 0 3pt; }
+  .meta { font-size:8.3pt; color:var(--mut); }
+  .meta a { color:inherit; text-decoration:none; }
+  hr { border:none; border-top:.4pt solid var(--rule); margin:4pt 0 6pt; }
+  .summary { margin:0 0 3pt; text-align:justify; }
+  .comp { margin:0 0 2pt; }
+  h2 {
+    font-size:10pt; text-transform:uppercase; margin:9pt 0 0; padding:0 0 2pt;
+    border-bottom:.5pt solid var(--rule);
+  }
+  .job { display:flex; justify-content:space-between; gap:8pt; margin:5pt 0 0; font-weight:700; }
+  .job .when { font-weight:400; white-space:nowrap; }
+  ul { margin:3pt 0 0; padding-left:11pt; }
+  li { margin:0 0 2.4pt; }
+  .proj { margin:2pt 0 0; }
+  .edu div { margin:1.5pt 0 0; display:flex; justify-content:space-between; gap:8pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>[Your Name]</h1>
+  <p class="role">[Your Title]</p>
+  <p class="meta">
+    [City, Country] &middot; [+00 000 000 000] &middot;
+    <a href="mailto:you@example.com">you@example.com</a> &middot;
+    <a href="https://example.com">Portfolio</a> &middot;
+    <a href="https://linkedin.com/in/you">linkedin.com/in/you</a> &middot;
+    English (Fluent)
+  </p>
+</header>
+<hr>
+
+<p class="summary">
+  [Two or three sentences. What you do, how long, and the two or three hardest numbers you
+  own. No adjectives you cannot evidence. This paragraph is the one part every tailored
+  version rewrites, so keep the facts here true and let the emphasis move.]
+</p>
+
+<p class="comp"><strong>Core Competencies:</strong>
+  [Skill One] &middot; [Skill Two] &middot; [Skill Three] &middot; [Skill Four] &middot;
+  [Skill Five] &middot; [Skill Six] &middot; [Skill Seven]
+</p>
+
+<h2>Experience</h2>
+
+<div class="job"><span>[Job Title] | [Company, Location]</span><span class="when">[Mon YYYY] – [Mon YYYY]</span></div>
+<ul>
+  <li>[Outcome first, then how. Include a number wherever you honestly have one.]</li>
+  <li>[Second bullet. Scope, ownership, and what changed because you were there.]</li>
+  <li>[Third bullet.]</li>
+</ul>
+
+<div class="job"><span>[Job Title] | [Company, Location]</span><span class="when">[Mon YYYY] – [Mon YYYY]</span></div>
+<ul>
+  <li>[Outcome first.]</li>
+  <li>[Second bullet.]</li>
+  <li>[Third bullet.]</li>
+</ul>
+
+<div class="job"><span>[Job Title] | [Company, Location]</span><span class="when">[Mon YYYY] – [Mon YYYY]</span></div>
+<ul>
+  <li>[Outcome first.]</li>
+  <li>[Second bullet.]</li>
+</ul>
+
+<h2>Projects</h2>
+
+<div class="job"><span>[Project Name] | [Client or Course]</span><span class="when">[YYYY]</span></div>
+<p class="proj">[One or two sentences: what you built, what it does, what happened to it. If it is live, say where.]</p>
+
+<div class="job"><span>[Project Name] | [Client or Course]</span><span class="when">[YYYY]</span></div>
+<p class="proj">[One or two sentences.]</p>
+
+<h2>Education</h2>
+<div class="edu">
+  <div><span>[Degree] | <strong>[Institution, Country]</strong></span><span>[YYYY]</span></div>
+  <div><span>[Degree] | <strong>[Institution, Country]</strong></span><span>[YYYY]</span></div>
+</div>
+
+</body>
+</html>

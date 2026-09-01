@@ -1,0 +1,29 @@
+# ---- personal data: never commit ----
+profile.md
+config.json
+*.xlsx
+*.pdf
+!examples/*.pdf
+seen_jobs.csv
+data/
+public/
+applications/
+cv/master_*.tex
+cv/master_*.html
+cv/*.aux
+cv/*.log
+cv/*.out
+
+# ---- local agent config ----
+.claude/settings.local.json
+.claude/plans/
+
+# ---- python ----
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- os ----
+.DS_Store
+Thumbs.db

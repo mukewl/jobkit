@@ -1,0 +1,35 @@
+{
+  "_comment": "Copy to config.json and edit. config.json is gitignored.",
+
+  "location": "France",
+  "experience_years": 4,
+
+  "sources": ["csv_import"],
+  "hours_window": 168,
+  "pages_per_keyword": 3,
+  "timezone": "Europe/Paris",
+
+  "keywords": [
+    { "query": "growth marketing manager",  "family": "Growth" },
+    { "query": "performance marketing",     "family": "Growth" },
+    { "query": "digital marketing manager", "family": "Brand" },
+    { "query": "product marketing manager", "family": "PMM" }
+  ],
+
+  "scoring": {
+    "must_have_any": [
+      "market", "brand", "growth", "content", "seo", "sem",
+      "campaign", "acquisition", "crm", "ecommerce", "e-commerce"
+    ],
+    "reject_any": [
+      "sales representative", "account executive", "intern",
+      "engineer", "developer", "accountant", "nurse"
+    ]
+  },
+
+  "location_filter": ["paris", "lyon", "nice", "remote", "france"],
+
+  "csv_import": {
+    "path": "examples/jobs.sample.csv"
+  }
+}

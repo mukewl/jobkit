@@ -1,0 +1,50 @@
+# Scheduled job collection.
+#
+#   cp .github/workflows/daily.yml.example .github/workflows/daily.yml
+#
+# USE A PRIVATE REPO. This commits data/ and seen_jobs.csv back to the repository —
+# a record of every job you have been shown. Both are gitignored by default, so you
+# must un-ignore them for this workflow to have anything to commit. Think about that
+# before you do it on a public repo.
+#
+# GitHub disables scheduled workflows after ~60 days without repository activity.
+# The bot's own commits keep it alive, as long as new jobs keep turning up.
+
+name: daily job queue
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"      # 06:00 UTC, weekdays. Actions cron can lag ~30 min.
+  workflow_dispatch:            # and a manual button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-job-queue
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet openpyxl
+
+      - name: Collect
+        run: python search/fetch_jobs.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "jobkit bot"
+          git config user.email "actions@github.com"
+          git add -A data public seen_jobs.csv
+          git diff --staged --quiet && echo "nothing new today" && exit 0
+          git commit -m "queue: $(date -u +%Y-%m-%d)"
+          git push

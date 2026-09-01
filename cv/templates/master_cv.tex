@@ -1,0 +1,95 @@
+% ------------------------------------------------------------------
+% jobkit CV template - one page, A4
+% Copy to cv/master_cv.tex and replace everything in [brackets].
+% Build:  python cv/build.py --template cv/master_cv.tex
+% ------------------------------------------------------------------
+\documentclass[9pt,a4paper]{extarticle}
+
+\usepackage[a4paper,top=0.8cm,bottom=0.8cm,left=1.5cm,right=1.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+\usepackage{parskip}
+\linespread{1.0}
+\emergencystretch=1.2em
+\setlength{\parskip}{3pt}
+
+\pagestyle{empty}
+
+\titleformat{\section}{\normalsize\bfseries\MakeUppercase}{}{0pt}{}[\vspace{-6pt}\rule{\textwidth}{0.5pt}]
+\titlespacing*{\section}{0pt}{7pt}{3.5pt}
+\setlist[itemize]{leftmargin=1.1em, itemsep=2.2pt, parsep=0pt, topsep=2.5pt, label=\textbullet}
+\newcommand{\job}[2]{\vspace{4pt}\textbf{#1} \hfill #2\par}
+\newcommand{\csep}{\hspace{2.5pt}\textperiodcentered\hspace{2.5pt}}
+
+\begin{document}
+
+% ---------------- HEADER ----------------
+\begin{center}
+    {\LARGE\bfseries [YOUR NAME]}\[2pt]
+    {\fontsize{9}{11}\selectfont [Your Title]\par}\vspace{3pt}
+    {\fontsize{8.3}{10}\selectfont [City, Country]\csep [+00 000 000 000]\csep
+     \href{mailto:you@example.com}{you@example.com}\csep
+     \href{https://example.com}{Portfolio}\csep
+     \href{https://linkedin.com/in/you}{linkedin.com/in/you}\csep
+     English (Fluent)\par}
+\end{center}
+\vspace{1pt}
+\hrule height 0.4pt
+\vspace{6pt}
+
+[Two or three sentences. What you do, how long, and the two or three hardest numbers you
+own. No adjectives you cannot evidence. This paragraph is the one part every tailored
+version rewrites, so keep the facts here true and let the emphasis move.]
+
+\vspace{3pt}
+
+\textbf{Core Competencies:} [Skill One] \textperiodcentered\ [Skill Two] \textperiodcentered\
+[Skill Three] \textperiodcentered\ [Skill Four] \textperiodcentered\ [Skill Five]
+\textperiodcentered\ [Skill Six] \textperiodcentered\ [Skill Seven]
+
+% ---------------- EXPERIENCE ----------------
+\section*{Experience}
+
+\job{[Job Title] $\vert$ [Company, Location]}{[Mon YYYY] -- [Mon YYYY]}
+\begin{itemize}
+    \item [Outcome first, then how. Include a number wherever you honestly have one.]
+    \item [Second bullet. Scope, ownership, and what changed because you were there.]
+    \item [Third bullet.]
+\end{itemize}
+
+\job{[Job Title] $\vert$ [Company, Location]}{[Mon YYYY] -- [Mon YYYY]}
+\begin{itemize}
+    \item [Outcome first.]
+    \item [Second bullet.]
+    \item [Third bullet.]
+\end{itemize}
+
+\job{[Job Title] $\vert$ [Company, Location]}{[Mon YYYY] -- [Mon YYYY]}
+\begin{itemize}
+    \item [Outcome first.]
+    \item [Second bullet.]
+\end{itemize}
+
+% ---------------- PROJECTS ----------------
+\section*{Projects}
+
+\job{[Project Name] $\vert$ [Client or Course]}{[YYYY]}
+[One or two sentences: what you built, what it does, what happened to it. If it is live,
+say where.]
+
+\job{[Project Name] $\vert$ [Client or Course]}{[YYYY]}
+[One or two sentences.]
+
+% ---------------- EDUCATION ----------------
+\section*{Education}
+
+[Degree] $\vert$ \textbf{[Institution, Country]} \hfill [YYYY]\
+[Degree] $\vert$ \textbf{[Institution, Country]} \hfill [YYYY]
+
+\end{document}

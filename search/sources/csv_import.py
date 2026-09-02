@@ -45,9 +45,9 @@ def _pick(row: dict, field: str) -> str:
 
 def _read(path: Path) -> list[dict]:
     if not path.exists():
-        raise FileNotFoundError(
-            f"csv_import: {path} not found. Set csv_import.path in config.json."
-        )
+        # Normal on a fresh install: /find-jobs writes this file after it reads
+        # the boards. Absent means "nothing from the browser yet", not an error.
+        return []
     if path.suffix.lower() == ".json":
         data = json.loads(path.read_text(encoding="utf-8"))
         return data if isinstance(data, list) else data.get("jobs", [])

@@ -46,29 +46,38 @@ not a prerequisite.
 
 If you want a queue instead of hunting manually:
 
-```bash
-python search/fetch_jobs.py     # collect and dedupe
 ```
-```
-/find-jobs                       # triage into tiers, write the tracker
+/find-jobs
 ```
 
-Ships with three sources, and you pick which apply to you during setup:
+One command. It searches every board you configured, drops anything you have already been
+shown, **ranks what is left against your actual CV**, and writes it to your tracker in
+tiers — apply now, stretch, check the language first, cannot take it.
+
+**You configure boards by pasting a URL.** Run the search you would normally run on a site
+you already use — your keywords, your filters, your city — and paste the URL you land on.
+That search is the configuration:
+
+```json
+"boards": [
+  { "name": "Indeed France", "search_url": "https://fr.indeed.com/jobs?q=growth&l=Paris", "enabled": true }
+]
+```
+
+Job boards vary enormously by country, so this is deliberately yours to choose rather than
+a list we picked. **You are responsible for the terms of any site you add** — most boards
+restrict automated access, and pointing a browser at a search you ran yourself is a
+judgement you get to make.
+
+Two API sources need no URL and work anywhere, if you want them:
 
 | Source | Covers | Notes |
 |---|---|---|
 | **himalayas** | Remote, worldwide | No key. [Free public API](https://himalayas.app/docs/remote-jobs-api) |
 | **arbeitnow** | Europe and the UK | No key. Flags **visa sponsorship**, which almost nothing free does |
-| **csv_import** | Anywhere | Export from any board yourself and point at the file |
-
-Different countries need different boards, so [adding your own](search/sources/README.md) is
-about thirty lines. Read the terms of any site first — and note that this repo deliberately
-ships **no scraper** for sites whose terms forbid it.
 
 Every job is shown once, ever. A permanent `seen_jobs.csv` means you never re-read the same
 listing.
-
----
 
 ## Keeping it free
 
@@ -114,7 +123,8 @@ Doing it by hand instead: [SETUP.md](SETUP.md), about fifteen minutes.
 
 ```
 /apply-to-job <url>     the main event: CV + people + messages
-/find-jobs              triage the queue into the tracker
+/find-jobs              search your boards and rank the results against your CV
+/filter-jobs            re-rank an existing queue, after a CV or rule change
 /follow-ups             who has gone quiet, and one nudge each
 ```
 

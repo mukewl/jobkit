@@ -98,22 +98,26 @@ cannot infer:
 
 Tell them a band is used to answer forms, not to filter jobs, so being honest costs nothing.
 
-### 6. Where should the jobs come from?
+### 6. Which job boards do you use?
 
-Offer the three that ship as defaults, then ask what else they use. Present them as
-options, not a lecture:
+This is the one that decides whether the whole thing is useful, so do not rush it.
 
-> Three sources work out of the box:
->   - **himalayas** — remote roles worldwide
->   - **arbeitnow** — Europe and the UK, and it flags visa sponsorship
->   - **csv_import** — a file you export yourself from any board
+> Which job boards do you actually use? For each one, run the search you'd normally run —
+> your keywords, your location, your filters — and paste me the URL you end up on. I'll
+> open that same search each time and read the results.
 >
-> Which of those fit? And are there boards you already use that I should try to add —
-> a national one, or something industry-specific?
+> Two extras that need no URL and work anywhere: **himalayas** (remote roles worldwide) and
+> **arbeitnow** (Europe and the UK, flags visa sponsorship). Want those on as well?
 
-Boards vary enormously by country, so someone in Brazil or India will need different
-sources than the two shipped ones. Take their answer seriously rather than talking them
-into the defaults. Phase 4 is where you act on it.
+The URL is the whole configuration. A search someone has already tuned on a site they know
+beats anything you would guess for them.
+
+Tell them plainly, once: **they are responsible for the terms of any site they add.** Most
+job boards restrict automated access. Pointing a browser at a search they ran themselves is
+a judgement they get to make; do not make it for them, and do not talk them out of it either.
+
+If they name a board but have no URL, ask them to run the search now and paste it. Do not
+guess a URL format.
 
 ---
 
@@ -141,29 +145,30 @@ One confirmation, then go. Do not re-ask things they have already answered.
 
 ---
 
-## Phase 4 — Job sources
+## Phase 4 — Wire up the boards
 
-Start by switching on whichever shipped sources they picked — set `sources` in
-`config.json` and run one search to prove jobs actually arrive. That alone gets them to a
-working queue in under a minute, and it is worth doing before anything harder.
+Write each board they gave you into `config.json`:
 
-Then, for each *additional* board they named, work out which of these applies and say which
-one you are doing:
+```json
+"boards": [
+  { "name": "Indeed France", "search_url": "https://fr.indeed.com/jobs?q=...&l=Paris", "enabled": true }
+]
+```
 
-**It has a public API or feed.** Offer to write an adapter in `search/sources/`. **Read the
-terms of service first, and say what you found.** If the terms forbid automated access, say
-so and do not write it — offer the export route instead.
+Add whichever API sources they said yes to under `sources`.
 
-**It has an export, or a saveable search.** The common case. Walk them through exporting
-results to CSV, then point `csv_import.path` at the file. It is manual, it takes two minutes
-a day, and it never breaks.
+**Then prove it works before moving on.** Run `/find-jobs` once, in front of them. It opens
+each board, reads the results, folds in the API sources, filters everything against their
+CV, and writes the tracker.
 
-**It has neither.** Say so plainly. Suggest they search in the browser and paste rows into
-a CSV. Do not invent a scraper to fill the gap.
+What you are checking:
 
-Whatever happens, the setup must end with `csv_import` working against a real file of their
-own, even if it only has five rows in it. **A configured pipeline with no jobs in it is a
-failed setup.**
+- Every board returned rows. If one came back empty, look at the page — the search may have
+  expired, needed a login, or thrown a challenge. Fix it now or disable it and say why.
+- The tiers look sane. If everything landed in tier X, their work authorisation is probably
+  written too tightly in `profile.md`. If everything is tier A, too loosely.
+
+A board that fails silently on day one will be assumed broken forever. Catch it here.
 
 ---
 
@@ -247,14 +252,18 @@ Print this, filled in with their actual details. One line per step, nothing long
 ```
 You're set up. Here's the whole thing:
 
-1. python search/fetch_jobs.py   Collects jobs from your sources, skips any you've seen before
-2. /find-jobs                    Sorts them into tiers, flags language and visa risk, fills your tracker
-3. /apply-to-job <url>           Tailors your CV, finds who to contact, writes the messages
-4. You apply and send            Nothing here submits a form or messages anyone for you
-5. /follow-ups                   A week later: who went quiet, and one nudge each
+1. /find-jobs            Searches your boards, drops anything you've seen, and ranks
+                         what's left against your CV. Writes it to your tracker.
+2. /apply-to-job <url>   Tailors your CV for that job, finds who to contact there,
+                         and writes the messages
+3. You apply and send    Nothing here submits a form or messages anyone for you
+4. /follow-ups           A week later: who went quiet, and one nudge each
 
-You don't need steps 1 and 2. If you find a job anywhere - LinkedIn, a friend,
-a newsletter - just paste the link into /apply-to-job and it works the same.
+You don't need step 1. If you find a job anywhere - LinkedIn, a friend, a
+newsletter - paste the link into /apply-to-job and it works exactly the same.
+
+(/filter-jobs re-ranks your existing queue without searching again. You'll want
+it after you edit your CV or change your rules.)
 
 Your files:
   profile.md          your rules. Edit this and everything changes behaviour

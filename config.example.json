@@ -3,7 +3,15 @@
   "location": "France",
   "experience_years": 4,
   "timezone": "Europe/Paris",
-  "_sources_note": "Pick the sources that match where you are. himalayas = remote worldwide. arbeitnow = Europe and UK, and it flags visa sponsorship. csv_import = a file you export yourself from any board. See search/sources/README.md to add your own.",
+  "_boards_note": "Boards you search yourself. Run the search on the site in your browser, copy the resulting URL, and paste it here. /find-jobs opens each one, reads the results, and folds them in with everything else. You are responsible for the terms of any site you add.",
+  "boards": [
+    {
+      "name": "Example Board",
+      "search_url": "https://example.com/jobs?q=growth+marketing&l=Paris",
+      "enabled": false
+    }
+  ],
+  "_sources_note": "API sources, no browser needed. himalayas = remote worldwide. arbeitnow = Europe and UK with a visa-sponsorship flag. csv_import = any file you export yourself. Add your own: search/sources/README.md",
   "sources": [
     "himalayas",
     "arbeitnow"
@@ -17,10 +25,11 @@
     "visa_sponsorship_only": false
   },
   "csv_import": {
-    "path": "examples/jobs.sample.csv"
+    "path": "data/browser_jobs.csv"
   },
   "hours_window": 168,
   "pages_per_keyword": 3,
+  "dashboard_days": 7,
   "keywords": [
     {
       "query": "growth marketing manager",
@@ -70,6 +79,5 @@
     "france",
     "remote",
     "europe"
-  ],
-  "dashboard_days": 7
+  ]
 }

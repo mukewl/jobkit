@@ -73,16 +73,26 @@ Edit:
   the description. This is what keeps sales and engineering roles out of a marketing queue.
 - `scoring.reject_any` — titles to drop outright
 - `location_filter` — city and country substrings you will actually take
-- `sources` — which adapters to run. Ships with `csv_import` only.
 
 ### Getting jobs in
 
-`csv_import` reads a CSV or JSON you produce however you like — export from a board, save a
-search, or paste rows in by hand. Point `csv_import.path` at it.
+**Boards you search yourself.** Run your normal search on a site you use, copy the URL, and
+add it:
 
-To pull from a live source, write an adapter: see
-[search/sources/README.md](search/sources/README.md). It is about thirty lines. Read the
-terms of any site you point it at first.
+```json
+"boards": [
+  { "name": "Indeed France", "search_url": "https://fr.indeed.com/jobs?q=growth&l=Paris", "enabled": true }
+]
+```
+
+`/find-jobs` opens each one, reads the results, and folds them in. The search you tuned is
+the whole configuration. **You are responsible for the terms of any site you add** — most
+job boards restrict automated access.
+
+**API sources**, which need no URL: set `sources` to any of `himalayas` (remote worldwide),
+`arbeitnow` (Europe and UK, flags visa sponsorship), or `csv_import` (a file you export
+yourself). Adding your own is about thirty lines — see
+[search/sources/README.md](search/sources/README.md).
 
 ---
 
@@ -145,14 +155,16 @@ you pass `--force`.
 
 ## 7. First run
 
-```bash
-python search/fetch_jobs.py
-```
-
-Opens nothing by itself — look at `public/index.html`. Then in your agent:
+In your agent:
 
 ```
 /find-jobs
+```
+
+That searches your boards, dedupes, ranks everything against your CV, and fills the
+tracker. Then:
+
+```
 /apply-to-job <a job url>
 ```
 

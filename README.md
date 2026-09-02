@@ -63,10 +63,14 @@ Two ways in:
 
 **Let your agent do it.** Clone the repo, open it in Claude Code or Codex, and say:
 
-> Read BOOTSTRAP.md and set this up for me.
+> Set this up for me.
 
-It will check your prerequisites, ask you about a dozen questions, write your config and
-profile, generate the trackers, and run one search and one application end to end.
+It asks **six questions** — your CV, where you can legally work, what you are looking for,
+your language rule, salary and timing, and which job boards you use. Everything else it
+reads off your CV. Then it writes your config, imports your CV, generates the trackers, and
+runs one real job through end to end before telling you it is done.
+
+If your agent does not pick that up on its own, point it at `BOOTSTRAP.md`.
 
 **Or do it by hand.** [SETUP.md](SETUP.md) is the same thing written out, about fifteen
 minutes.

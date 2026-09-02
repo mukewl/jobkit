@@ -1,125 +1,206 @@
-# Bootstrap — instructions for the agent
+# Bootstrap — setup instructions for the agent
 
-**You are setting this repo up for the person you are talking to.** Work through these
-phases in order. Do not skip the interview, and do not invent answers on their behalf.
+**You are setting this repo up for the person you are talking to.** Follow these phases in
+order.
 
-Tell them at the start roughly what is coming: a few prerequisite checks, about a dozen
-questions, then you build their config, CV and trackers and run one job through end to end.
-It takes about ten minutes and most of it is them typing answers.
+The single rule that makes this feel professional rather than like filling in a form:
+**ask only what you cannot work out yourself.** Their CV contains their name, contact
+details, job history, seniority, skills and often their languages and portfolio. Read it,
+extract all of that, and show them what you found for confirmation. Never ask for something
+that was on page one of the file they just gave you.
+
+There are **six questions**. Not seven. If you find yourself wanting to ask a seventh,
+you have missed something you could have inferred.
+
+Open by telling them what is about to happen:
+
+> I'll ask you six things, then set everything up and run one real job through it end to end.
+> Takes about ten minutes, most of it you typing.
 
 ---
 
-## Phase 1 — Check prerequisites
+## Phase 1 — Check prerequisites (silent)
 
-Run these and report what is present:
+Run these before asking anything. Do not narrate it; just fix what you can and raise what
+you cannot.
 
 ```bash
 python --version
-python -c "import openpyxl; print('openpyxl ok')"
+python -c "import openpyxl, pypdf; print('py deps ok')"
 python -c "import playwright; print('playwright ok')"
-python -c "import pypdf; print('pypdf ok')"
-```
-
-```bash
 pdflatex --version
 ```
 
-Install what is missing and safe to install (`pip install openpyxl pypdf`). **Do not install
-a LaTeX distribution or a browser engine without asking** — both are large downloads.
+- Install missing pip packages yourself: `pip install openpyxl pypdf`
+- **Do not install LaTeX or a browser engine without asking.** Both are large. If neither
+  `pdflatex` nor `playwright` is present, fold the choice into question 1 rather than making
+  it a separate interruption.
+- On Windows with MiKTeX present, run this now — its default install lacks fonts the
+  template needs and the resulting error is baffling:
+  ```bash
+  initexmf --set-config-value="[MPM]AutoInstall=1"
+  ```
 
-If neither `pdflatex` nor `playwright` is available, tell them they need one before the CV
-step will work, and offer both options with their sizes: LaTeX is a several-hundred-megabyte
-install, Playwright's Chromium is around 150MB.
+---
 
-If `pdflatex` is present on Windows, run this now, because MiKTeX's default install is
-missing fonts the template needs and the failure is confusing:
+## Phase 2 — The six questions
 
-```bash
-initexmf --set-config-value="[MPM]AutoInstall=1"
+Use `AskUserQuestion` where your client supports it, with real options rather than open
+prompts. Ask them in **two batches of three**, not one at a time. Where an answer is
+genuinely open (their CV path, their target roles), free text is right.
+
+### 1. Your CV
+
+> Where's your CV? Give me a file path, or paste the text.
+
+Accept anything: `.tex`, `.html`, `.docx`, `.pdf`, `.md`, or pasted text. If they have none,
+say you will build one from the interview and that it will be a starting point rather than a
+finished CV.
+
+If neither LaTeX nor Playwright was found in Phase 1, add the engine choice here:
+
+> I'll also need one of these to build PDFs — LaTeX (~400MB, best if you want exact control
+> of the layout) or Playwright's Chromium (~150MB, simpler). Which would you rather?
+
+### 2. Where can you legally work?
+
+Countries, and whether that is about to change.
+
+> Which countries can you work in right now without a new visa? And is that about to
+> change — a permit expiring, a status change coming, a graduation?
+
+Follow with, only if relevant: would they consider a role that needs sponsorship?
+
+**This is the most consequential answer in the whole setup.** It is what stops the agent
+spending their week on roles they cannot take.
+
+### 3. What are you looking for, and where?
+
+Propose from the CV rather than asking cold:
+
+> From your CV you look like a [title] at [level]. I'd search for things like
+> [3-4 phrases]. Right, or should I aim somewhere else?
+>
+> And which cities, countries or remote arrangements?
+
+### 4. Languages — what's the rule?
+
+Extract the levels from their CV first, then ask about the **rule**, which is the part you
+cannot infer:
+
+> Your CV lists [languages and levels]. When a job needs a language above your level, should
+> I treat that as a hard stop, or flag it and let you judge?
+
+### 5. Money and timing
+
+> What salary band and currency should I use when an application demands a number, and when
+> could you start?
+
+Tell them a band is used to answer forms, not to filter jobs, so being honest costs nothing.
+
+### 6. Where should the jobs come from?
+
+> Which job boards do you actually use? LinkedIn, Indeed, a national board, an industry one?
+
+Then handle each honestly — see Phase 4.
+
+---
+
+## Phase 3 — Show your work, once
+
+Before writing a single file, show one compact summary of everything you extracted and
+everything they told you:
+
+```
+Name          Jane Doe
+Contact       jane@example.com · +33 000 000 000 · linkedin.com/in/janedoe
+Currently     Growth Marketing Manager, 4 years
+Can work in   France only (student visa → post-study permit)
+Looking for   growth marketing manager, performance marketing, digital marketing manager
+Where         Paris, Lyon, remote EU
+Languages     English fluent, French A1 → French above A1 is a hard stop
+Money         EUR 45–60k, available immediately
+Sources       CSV export from Indeed FR, plus a Welcome to the Jungle adapter
+CV engine     LaTeX (found on PATH)
 ```
 
----
+> Anything wrong before I write this?
 
-## Phase 2 — Interview
-
-Ask these. Group them — do not fire twenty separate questions. Where they are unsure, say
-what the consequence of each answer is rather than picking for them.
-
-**About them**
-1. Name, city and country, email, phone
-2. Portfolio or personal site, LinkedIn URL
-3. Current or most recent job title
-
-**Work authorisation** — the most important answers here
-4. Which countries can they legally work in right now?
-5. Are they on a visa or permit with a status change coming?
-6. Any country they would need sponsorship for and would still consider?
-
-**Languages**
-7. Which languages, at what honest level?
-8. Should a job requiring a language above that level be a hard stop, or flagged for them
-   to judge?
-
-**The search**
-9. What roles are they looking for? Get 3-6 search phrases, not job families
-10. Which cities, regions, or remote arrangements?
-11. Anything that should be rejected on sight — titles or industries they will never take
-
-**Practicalities**
-12. Salary band and currency
-13. When can they start?
-14. Do they already have a CV file? What format, and where is it?
+One confirmation, then go. Do not re-ask things they have already answered.
 
 ---
 
-## Phase 3 — Write their config
+## Phase 4 — Job sources
 
-**`profile.md`** — from `profile.example.md`, filled in with their answers. This file is
-load-bearing: every skill reads it. Be specific and blunt in it. If they said French A1,
-write that treating a French-fluency requirement as a hard blocker is the rule.
+This is where a new user most often gets stuck, so be concrete rather than pointing at docs.
 
-**`config.json`** — from `config.example.json`:
+For each board they named, work out which of these applies and say which one you are doing:
+
+**It has a public API or feed.** Offer to write an adapter in `search/sources/`. **Read the
+terms of service first, and say what you found.** If the terms forbid automated access, say
+so and do not write it — offer the export route instead.
+
+**It has an export, or a saveable search.** The common case. Walk them through exporting
+results to CSV, then point `csv_import.path` at the file. It is manual, it takes two minutes
+a day, and it never breaks.
+
+**It has neither.** Say so plainly. Suggest they search in the browser and paste rows into
+a CSV. Do not invent a scraper to fill the gap.
+
+Whatever happens, the setup must end with `csv_import` working against a real file of their
+own, even if it only has five rows in it. **A configured pipeline with no jobs in it is a
+failed setup.**
+
+---
+
+## Phase 5 — Write the configuration
+
+**`profile.md`** from `profile.example.md`. This is load-bearing — every skill reads it
+before acting. Write their work authorisation, language rule, salary and availability as
+plain, blunt statements. "French A1. Treat a stated French-fluency requirement as a hard
+blocker" is worth more than a paragraph of nuance.
+
+**`config.json`** from `config.example.json`:
 - `location`, `timezone` from their city
-- `keywords` from their search phrases, each with a sensible `family` label
-- `scoring.must_have_any` — words that must appear in a job **title**. Derive these from
-  their target roles, and explain the mechanism: this is the filter that keeps unrelated
-  roles out
-- `scoring.reject_any` from their never-take list
-- `location_filter` from their cities plus `remote` if applicable
+- `keywords` from their target roles, each with a `family` label
+- `scoring.must_have_any` — words that must appear in a job **title**. Derive from their
+  target roles and explain the mechanism, because this is the filter they will want to tune
+  later
+- `scoring.reject_any` — titles they would never take
+- `location_filter` — their cities, plus `remote` where relevant
+- `sources` and the matching source settings
 
-Show them both files and ask if anything is wrong before continuing.
+**Their CV** into `cv/`:
+- Already `.tex` or `.html` → copy it in as-is. **Do not restructure it.** Its formatting is
+  the reason this repo exists.
+- Any other format → extract the content into `cv/templates/master_cv.html` and save as
+  `cv/master_cv.html`. Tell them plainly that the layout will not match their original, and
+  that converting their own design to LaTeX or HTML gets it back.
 
----
-
-## Phase 4 — Their CV
-
-If they have a CV already:
-- **`.tex`** → copy it to `cv/master_cv.tex` and use it as-is. Do not restructure it. It is
-  theirs, and its formatting is the reason this repo exists.
-- **`.docx`, `.pdf` or anything else** → read the content, then fill
-  `cv/templates/master_cv.html` with it and save as `cv/master_cv.html`. Tell them plainly
-  that the layout will not match their original, and that if they want their exact design
-  they should convert it to LaTeX or HTML themselves and drop it in.
-
-If they have no CV, fill the template from the interview answers and tell them it is a
-starting point, not a finished CV.
-
-Then build it and **do not proceed until it is one page**:
+Then build it, and **do not continue until it is one page**:
 
 ```bash
 python cv/build.py --template cv/master_cv.tex
 ```
 
-If it is two pages, work with them to cut. Do not raise `--max-pages` and do not shrink the
-font — a master that overflows makes every tailored version overflow.
+If it overflows, cut with them. Never raise `--max-pages`, never shrink the font — a master
+that runs long makes every tailored version run long.
+
+**Trackers:**
+
+```bash
+python trackers/make_trackers.py
+```
 
 ---
 
-## Phase 5 — Contact finding
+## Phase 6 — Contact finding
 
-Explain the trade honestly: Explorium's free tier covers search and preview, which is all
-this repo uses, but it needs an account. Without it, contact-finding falls back to company
-websites and web search, which is fine for small companies and weak for large ones.
+State the trade honestly and let them choose:
+
+> Finding people at each company uses Explorium. Its free tier covers search and preview,
+> which is all this repo uses — but it needs an account. Without it I fall back to company
+> websites and web search, which works at a 50-person startup and poorly at a large group.
 
 If they want it:
 
@@ -127,44 +208,32 @@ If they want it:
 claude mcp add -s user --transport http vibe-prospecting https://vibeprospecting.explorium.ai/mcp
 ```
 
-Then tell them to run `/mcp` in a **new** session and complete the browser sign-in. You
-cannot do the OAuth for them, and you must not ask them for a token or a callback URL.
-
----
-
-## Phase 6 — Trackers
-
-```bash
-python trackers/make_trackers.py
-```
-
-Tell them to delete the example row in each once they have looked at it.
+Then: run `/mcp` in a **new** session and complete the browser sign-in. You cannot do OAuth
+for them. **Never ask them for a token, a code, or a callback URL.**
 
 ---
 
 ## Phase 7 — Prove it works
 
-Do not declare success until a job has been through the whole thing.
+Do not say you are done until a real job has been through the whole thing.
 
-1. Ask them for one real job URL they are actually interested in
+1. Ask for one job URL they actually care about
 2. Run the `apply-to-job` skill on it
-3. Confirm they end up with: a one-page PDF in `applications/<Company>/`, and rows in
-   `Contacts.xlsx`
+3. Confirm they have a one-page PDF in `applications/<Company>/` and rows in `Contacts.xlsx`
 
-If any step fails, fix it now rather than handing over a broken setup.
+If anything fails, fix it now. Handing over a setup you have not seen work is the one
+failure that wastes their whole evening.
 
 ---
 
 ## Phase 8 — Hand over
 
-Tell them, in plain terms:
+Keep it to five lines:
 
-- The three commands they will actually use: `/find-jobs`, `/apply-to-job <url>`,
-  `/follow-ups`
-- That `profile.md`, `config.json` and their CV are theirs to edit whenever things change,
-  and that editing `profile.md` changes how every skill behaves
-- That **nothing sends anything for them** — they submit forms and press send on LinkedIn
-- That everything personal is gitignored, so if they push this repo their CV, trackers and
-  profile stay behind
+- The three commands they will use: `/find-jobs`, `/apply-to-job <url>`, `/follow-ups`
+- `profile.md` is the file that changes how everything behaves — edit it when things change
+- Their CV at `cv/master_cv.*` is the source of truth; tailored copies never edit it
+- **Nothing sends anything for them.** They submit forms; they press send on LinkedIn
+- Everything personal is gitignored, so pushing this repo leaves their CV and trackers behind
 
-Then ask what is still unclear, and answer it.
+Then ask what is unclear, and answer it.

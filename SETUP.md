@@ -1,8 +1,8 @@
 # Setup
 
 About fifteen minutes by hand. If you would rather not, open the repo in Claude Code or
-Codex and say *"read BOOTSTRAP.md and set this up for me"* — it does all of the below and
-asks you the questions it needs.
+Codex and say *"set this up for me"* — it asks six questions, reads the rest off your CV,
+and does everything below for you.
 
 ---
 

@@ -1,35 +1,75 @@
 {
   "_comment": "Copy to config.json and edit. config.json is gitignored.",
-
   "location": "France",
   "experience_years": 4,
-
-  "sources": ["csv_import"],
-  "hours_window": 168,
-  "pages_per_keyword": 3,
   "timezone": "Europe/Paris",
-
-  "keywords": [
-    { "query": "growth marketing manager",  "family": "Growth" },
-    { "query": "performance marketing",     "family": "Growth" },
-    { "query": "digital marketing manager", "family": "Brand" },
-    { "query": "product marketing manager", "family": "PMM" }
+  "_sources_note": "Pick the sources that match where you are. himalayas = remote worldwide. arbeitnow = Europe and UK, and it flags visa sponsorship. csv_import = a file you export yourself from any board. See search/sources/README.md to add your own.",
+  "sources": [
+    "himalayas",
+    "arbeitnow"
   ],
-
-  "scoring": {
-    "must_have_any": [
-      "market", "brand", "growth", "content", "seo", "sem",
-      "campaign", "acquisition", "crm", "ecommerce", "e-commerce"
-    ],
-    "reject_any": [
-      "sales representative", "account executive", "intern",
-      "engineer", "developer", "accountant", "nurse"
-    ]
+  "himalayas": {
+    "limit": 100
   },
-
-  "location_filter": ["paris", "lyon", "nice", "remote", "france"],
-
+  "arbeitnow": {
+    "region": "eu",
+    "pages": 2,
+    "visa_sponsorship_only": false
+  },
   "csv_import": {
     "path": "examples/jobs.sample.csv"
-  }
+  },
+  "hours_window": 168,
+  "pages_per_keyword": 3,
+  "keywords": [
+    {
+      "query": "growth marketing manager",
+      "family": "Growth"
+    },
+    {
+      "query": "performance marketing",
+      "family": "Growth"
+    },
+    {
+      "query": "digital marketing manager",
+      "family": "Brand"
+    },
+    {
+      "query": "product marketing manager",
+      "family": "PMM"
+    }
+  ],
+  "scoring": {
+    "must_have_any": [
+      "market",
+      "brand",
+      "growth",
+      "content",
+      "seo",
+      "sem",
+      "campaign",
+      "acquisition",
+      "crm",
+      "ecommerce",
+      "e-commerce"
+    ],
+    "reject_any": [
+      "sales representative",
+      "account executive",
+      "intern",
+      "engineer",
+      "developer",
+      "accountant",
+      "nurse"
+    ]
+  },
+  "location_filter": [
+    "paris",
+    "lyon",
+    "nice",
+    "france",
+    "remote",
+    "europe"
+  ],
+  "dashboard_days": 7
 }

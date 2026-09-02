@@ -19,11 +19,22 @@ Register it by adding the module name to `sources` in your `config.json`:
 
 A source that throws is reported and skipped — one broken adapter will not take down a run.
 
-## Why only one adapter ships
+## What ships, and why
 
-`csv_import` is the only adapter in this repo, on purpose. It reads a CSV or JSON you
-exported from anywhere, so the pipeline works out of the box with no account, no API key,
-and nothing that could breach a site's terms.
+Three adapters, all of which work with no account and no API key:
+
+| Adapter | Covers | Terms |
+|---|---|---|
+| `himalayas` | Remote roles worldwide | [Free public API](https://himalayas.app/docs/remote-jobs-api). No key. Rate limited, refreshes daily. **Requires visible attribution**, which the dashboard renders automatically |
+| `arbeitnow` | Europe and the UK | [Free public API](https://www.arbeitnow.com/blog/job-board-api). No key. Carries a `visa_sponsorship` flag |
+| `csv_import` | Anywhere | Reads a file you exported yourself. Nothing to breach |
+
+All three were picked because their operators publish them as public APIs and invite this
+use. Both live ones were tested against their real endpoints before shipping. **Terms
+change — re-read them before you rely on either.**
+
+Job boards vary enormously by country, so these three will not cover everyone. Writing your
+own is about thirty lines.
 
 **Scraping adapters are yours to write and yours to run.** Many job boards — LinkedIn among
 them — prohibit automated collection in their terms of service, including of endpoints that

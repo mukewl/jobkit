@@ -1,109 +1,147 @@
 # jobkit
 
-A job-application pipeline you run yourself, on your own machine, with your own AI coding
-agent. It finds roles, writes a tailored CV that keeps your formatting, works out who to
-talk to at each company, and drafts the messages. You press send.
+**Give it a job link. Get back a tailored one-page CV, the names of the people worth
+talking to at that company, and the messages to send them.**
 
-No SaaS account. No subscription for the pipeline itself. No agent applying to jobs on your
-behalf while you sleep.
+```
+/apply-to-job https://boards.example.com/acme/senior-marketing-manager
+```
 
----
+That one command is the whole point of this repo. Everything else is optional scaffolding
+around it.
 
-## What it actually does
-
-**1. Finds jobs.** A small Python pipeline pulls listings from whatever sources you plug in,
-filters them on your keywords and locations, and remembers every job it has ever shown you
-so nothing appears twice. Runs locally, or free on GitHub Actions on a schedule.
-
-**2. Tailors your CV.** Your CV stays *your* CV — a LaTeX or HTML file you own. The agent
-rewrites the summary, reorders your competencies and bullets for each job, and rebuilds the
-PDF. The build tool **exits non-zero if the result runs over one page**, so a two-pager
-cannot quietly reach an employer.
-
-**3. Finds people.** For each application, it returns 5-10 named people at that company with
-their titles and LinkedIn profiles, ranked by how close they sit to the actual role — and it
-tells you which of them are noise.
-
-**4. Drafts the outreach.** A connection note and a follow-up message per person, in a
-format built to get replies: ask a real question, do not pitch, no metrics.
-
-**5. Tracks it.** Two spreadsheets — roles and people — including a follow-up date so
-nothing goes quiet unnoticed.
-
-## What it does not do
-
-- **It does not apply for you.** It builds the CV and the messages. You submit the form and
-  you press send on LinkedIn. This is deliberate: automated applications are worth less than
-  the time they save, and automated LinkedIn activity gets accounts banned.
-- **It does not invent anything.** The agent is instructed, repeatedly and specifically, that
-  every number, employer, tool and date on a tailored CV must already exist on your master.
-  If a job wants a skill you do not have, it tells you instead of writing it in.
-- **It does not ship a scraper.** See [search/sources/README.md](search/sources/README.md).
+It runs on your machine, in your own AI coding agent, on your own CV. No SaaS account for
+the pipeline, no subscription, and nothing applying to jobs on your behalf while you sleep.
 
 ---
 
-## Honest limitations
+## The one command
 
-- **Contact-finding needs a paid service.** Explorium (Vibe Prospecting) has a free search
-  and preview tier that this repo stays inside, but it needs an account. Without it you fall
-  back to company websites and web search, which works fine at a 50-person startup and
-  poorly at a 300,000-person group.
-- **Job sources are your problem.** Only a CSV importer ships. Adapters that scrape sites are
-  yours to write, and sites change their HTML without warning.
-- **The LaTeX path needs a LaTeX install**, which is a genuine barrier. The HTML path needs
-  only Playwright. Both are supported and both produce a page-checked PDF.
-- **The pipeline's filtering is dumb on purpose.** It matches title keywords and location
-  strings. All the judgement lives in the agent skills, where it can be read and argued with.
+`/apply-to-job <url>` does four things:
+
+**Reads the posting** and stops you first if it breaks a rule you set — a language you do
+not have, a country you cannot work in, a citizenship or clearance requirement. It says so
+before writing anything, instead of after.
+
+**Tailors your CV.** Your CV stays *your* CV — a LaTeX or HTML file you own and control. It
+rewrites the summary, reorders your competencies and bullets for this specific job, and
+rebuilds the PDF. The build step **exits non-zero if the result runs over one page**, so a
+two-pager cannot quietly reach an employer.
+
+**Finds 5–10 real people** at that company, with titles and LinkedIn profiles, ranked by how
+close they sit to the actual role — and tells you which ones are noise.
+
+**Drafts the messages.** A connection note and a follow-up per person, in a format built to
+get replies: ask a real question, do not pitch, no metrics.
+
+You submit the form. You press send. It never does either for you.
+
+**You do not need the rest of this repo to use it.** Found a job on LinkedIn, from a friend,
+in a newsletter? Paste the URL and run the command. The job search below is a convenience,
+not a prerequisite.
+
+---
+
+## The optional half: finding jobs
+
+If you want a queue instead of hunting manually:
+
+```bash
+python search/fetch_jobs.py     # collect and dedupe
+```
+```
+/find-jobs                       # triage into tiers, write the tracker
+```
+
+Ships with three sources, and you pick which apply to you during setup:
+
+| Source | Covers | Notes |
+|---|---|---|
+| **himalayas** | Remote, worldwide | No key. [Free public API](https://himalayas.app/docs/remote-jobs-api) |
+| **arbeitnow** | Europe and the UK | No key. Flags **visa sponsorship**, which almost nothing free does |
+| **csv_import** | Anywhere | Export from any board yourself and point at the file |
+
+Different countries need different boards, so [adding your own](search/sources/README.md) is
+about thirty lines. Read the terms of any site first — and note that this repo deliberately
+ships **no scraper** for sites whose terms forbid it.
+
+Every job is shown once, ever. A permanent `seen_jobs.csv` means you never re-read the same
+listing.
+
+---
+
+## Keeping it free
+
+Contact-finding uses [Explorium's Vibe Prospecting](https://vibeprospecting.explorium.ai)
+MCP server. **Search and preview are free. Export costs credits.**
+
+This repo stays inside the free tier on purpose, and the skill is explicitly forbidden from
+leaving it:
+
+- ✅ It searches, previews the results, and **reads the names off the preview**
+- ✅ Your agent then writes those names into `Contacts.xlsx` itself
+- ❌ It never calls `export-to-csv`
+- ❌ It never calls `enrich-prospects`
+- ❌ It never confirms a credit-consuming action on your behalf
+
+That is the whole trick: you do not need the paid export, because the preview already shows
+you five people with names, titles and LinkedIn URLs — and copying five rows into a
+spreadsheet is something the agent does for free. Run the search again with a different
+filter and you get five more.
+
+You still need an Explorium account, which is free to create. Without one, the skill falls
+back to company websites and web search: fine at a fifty-person startup, weak at a
+300,000-person group.
 
 ---
 
 ## Getting started
 
-Two ways in:
-
-**Let your agent do it.** Clone the repo, open it in Claude Code or Codex, and say:
+Clone it, open the folder in Claude Code or Codex, and say:
 
 > Set this up for me.
 
-It asks **six questions** — your CV, where you can legally work, what you are looking for,
-your language rule, salary and timing, and which job boards you use. Everything else it
-reads off your CV. Then it writes your config, imports your CV, generates the trackers, and
-runs one real job through end to end before telling you it is done.
+Six questions — your CV, where you can legally work, what you are after, your language rule,
+salary and timing, and which job boards suit you. Everything else it reads off your CV. Then
+it writes your config, imports your CV, builds the trackers, and runs one real job through
+end to end before it tells you it is done.
 
-If your agent does not pick that up on its own, point it at `BOOTSTRAP.md`.
+Doing it by hand instead: [SETUP.md](SETUP.md), about fifteen minutes.
 
-**Or do it by hand.** [SETUP.md](SETUP.md) is the same thing written out, about fifteen
-minutes.
+---
 
-## Daily use
-
-```bash
-python search/fetch_jobs.py          # collect and dedupe; opens in public/index.html
-```
-
-Then in your agent:
+## Everything you can run
 
 ```
-/find-jobs                            # triage today's queue into the tracker
-/apply-to-job <job url>               # CV + contacts + drafted messages
-/follow-ups                           # who has gone quiet, and one nudge each
+/apply-to-job <url>     the main event: CV + people + messages
+/find-jobs              triage the queue into the tracker
+/follow-ups             who has gone quiet, and one nudge each
 ```
+
+## What it will not do
+
+- **Apply for you.** Automated applications are worth less than the time they save.
+- **Touch LinkedIn.** No logging in, no connection requests, no InMail. Automated LinkedIn
+  activity gets accounts banned, and it is not worth your account.
+- **Invent anything.** Every number, employer, tool and date on a tailored CV must already
+  exist on your master. If a job wants a skill you do not have, it tells you rather than
+  writing it in.
 
 ## Layout
 
 ```
-config.json          your keywords, locations, filters      (gitignored)
-profile.md           your work authorisation, languages     (gitignored)
-cv/master_cv.tex     your CV, the single source of truth    (gitignored)
-search/              the collection pipeline + source adapters
+config.json          your sources, keywords, filters         (gitignored)
+profile.md           work authorisation, languages, rules    (gitignored)
+cv/master_cv.tex     your CV, the single source of truth     (gitignored)
+.claude/skills/      the skills your agent runs
+search/              collection pipeline and source adapters
 cv/build.py          template -> PDF, with the page check
 trackers/            generates Job_Tracker.xlsx + Contacts.xlsx
-.claude/             the skills your agent runs
 ```
 
-Everything personal is gitignored by default. Your CV, your trackers, your config and your
-profile never enter git unless you go out of your way.
+Everything personal is gitignored. Push this repo and your CV, trackers, profile and config
+stay behind.
 
 ## Licence
 
-MIT. Do what you like with it.
+MIT.

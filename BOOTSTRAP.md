@@ -100,9 +100,20 @@ Tell them a band is used to answer forms, not to filter jobs, so being honest co
 
 ### 6. Where should the jobs come from?
 
-> Which job boards do you actually use? LinkedIn, Indeed, a national board, an industry one?
+Offer the three that ship as defaults, then ask what else they use. Present them as
+options, not a lecture:
 
-Then handle each honestly — see Phase 4.
+> Three sources work out of the box:
+>   - **himalayas** — remote roles worldwide
+>   - **arbeitnow** — Europe and the UK, and it flags visa sponsorship
+>   - **csv_import** — a file you export yourself from any board
+>
+> Which of those fit? And are there boards you already use that I should try to add —
+> a national one, or something industry-specific?
+
+Boards vary enormously by country, so someone in Brazil or India will need different
+sources than the two shipped ones. Take their answer seriously rather than talking them
+into the defaults. Phase 4 is where you act on it.
 
 ---
 
@@ -132,9 +143,12 @@ One confirmation, then go. Do not re-ask things they have already answered.
 
 ## Phase 4 — Job sources
 
-This is where a new user most often gets stuck, so be concrete rather than pointing at docs.
+Start by switching on whichever shipped sources they picked — set `sources` in
+`config.json` and run one search to prove jobs actually arrive. That alone gets them to a
+working queue in under a minute, and it is worth doing before anything harder.
 
-For each board they named, work out which of these applies and say which one you are doing:
+Then, for each *additional* board they named, work out which of these applies and say which
+one you are doing:
 
 **It has a public API or feed.** Offer to write an adapter in `search/sources/`. **Read the
 terms of service first, and say what you found.** If the terms forbid automated access, say
@@ -228,12 +242,38 @@ failure that wastes their whole evening.
 
 ## Phase 8 — Hand over
 
-Keep it to five lines:
+Print this, filled in with their actual details. One line per step, nothing longer:
 
-- The three commands they will use: `/find-jobs`, `/apply-to-job <url>`, `/follow-ups`
-- `profile.md` is the file that changes how everything behaves — edit it when things change
-- Their CV at `cv/master_cv.*` is the source of truth; tailored copies never edit it
-- **Nothing sends anything for them.** They submit forms; they press send on LinkedIn
-- Everything personal is gitignored, so pushing this repo leaves their CV and trackers behind
+```
+You're set up. Here's the whole thing:
+
+1. python search/fetch_jobs.py   Collects jobs from your sources, skips any you've seen before
+2. /find-jobs                    Sorts them into tiers, flags language and visa risk, fills your tracker
+3. /apply-to-job <url>           Tailors your CV, finds who to contact, writes the messages
+4. You apply and send            Nothing here submits a form or messages anyone for you
+5. /follow-ups                   A week later: who went quiet, and one nudge each
+
+You don't need steps 1 and 2. If you find a job anywhere - LinkedIn, a friend,
+a newsletter - just paste the link into /apply-to-job and it works the same.
+
+Your files:
+  profile.md          your rules. Edit this and everything changes behaviour
+  cv/master_cv.<ext>  your CV. Tailored copies never edit it
+  Job_Tracker.xlsx    roles
+  Contacts.xlsx       people, messages, and when to follow up
+
+Two things worth knowing:
+  Contact finding stays on Explorium's free tier - it reads names off the preview
+  and I type them into your spreadsheet. It never exports, which is the paid part.
+  Everything personal is gitignored, so pushing this repo leaves your CV behind.
+```
+
+Emphasise point 4 out loud as well as in the text: **nothing here sends anything for them.**
+It is the thing people most often assume wrongly, and the assumption is expensive.
+
+Then tell them the single most useful thing about their own setup — the one rule in their
+`profile.md` that will reject the most jobs. For someone with a language constraint that is
+the language rule; for someone on a visa it is the work authorisation. Say which one it is
+for them, and that editing `profile.md` is how they change it.
 
 Then ask what is unclear, and answer it.

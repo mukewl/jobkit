@@ -41,6 +41,18 @@ Use the **Explorium (Vibe Prospecting)** MCP. Load its tools with `ToolSearch` f
 search `vibe prospecting fetch entities prospects` and select `fetch-entities` and
 `show-sample`.
 
+### How this stays free
+
+Explorium's search and preview are free; export costs credits. You never need the export.
+
+`show-sample` returns five people with **real names, titles and LinkedIn URLs already
+visible**. Read them straight off that response and write them into `Contacts.xlsx`
+yourself. That is the entire technique. Want more than five? Run the fetch again with
+`exclude_key: "prospects"` and read the next five. Every round is free.
+
+The paid export exists to hand you a CSV. You have an agent that can type, so you do not
+need one.
+
 ### Absolute rules — money
 
 - **NEVER call `export-to-csv`.** Not once, not "just this table", not if the credit balance

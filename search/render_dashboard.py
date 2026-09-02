@@ -97,6 +97,13 @@ def render(jobs: list[dict], config: dict) -> str:
     built = datetime.now().strftime("%d %b %Y, %H:%M")
     days = config.get("dashboard_days", 7)
 
+    try:
+        import sources
+        credits = sources.attributions(j.get("source", "") for j in jobs)
+    except Exception:
+        credits = []
+    credit_html = (" " + " ".join(credits)) if credits else ""
+
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -111,5 +118,5 @@ def render(jobs: list[dict], config: dict) -> str:
 <tbody>
 {rows}
 </tbody></table></div>
-<footer>Checkbox state is stored in this browser only. Built by jobkit.</footer>
+<footer>Checkbox state is stored in this browser only. Built by jobkit.{credit_html}</footer>
 </div><script>{JS}</script></body></html>"""

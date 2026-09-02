@@ -55,6 +55,23 @@ def normalise(rows, source_name: str) -> list[dict]:
     return out
 
 
+def attributions(names) -> list[str]:
+    """Credit lines required by the adapters in use.
+
+    Some sources (Himalayas, for one) require visible attribution as a condition
+    of their free API. The dashboard renders whatever this returns. Honour it.
+    """
+    out = []
+    for name in sorted(set(names)):
+        try:
+            text = getattr(load(name), "ATTRIBUTION", "")
+        except SourceError:
+            continue
+        if text:
+            out.append(text)
+    return out
+
+
 def fetch_all(query: str, config: dict) -> list[dict]:
     """Run every configured source for one query and concatenate the results.
     A source that raises is reported and skipped - one bad adapter should not

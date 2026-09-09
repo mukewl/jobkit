@@ -1,0 +1,11 @@
+# Everything else this repo uses is in the Python standard library.
+
+openpyxl>=3.1          # the two .xlsx trackers, and every skill that writes to them
+
+# ---- optional, depending on which CV engine you chose ----
+# pypdf>=4.0           # accurate page count on the HTML path. Without it, build.py
+#                      # falls back to counting page objects in the raw PDF, which is
+#                      # correct on ordinary CVs but not guaranteed.
+# playwright>=1.40     # only for .html templates. Also needs: python -m playwright install chromium
+#
+# The LaTeX path needs no Python package at all - it shells out to pdflatex.

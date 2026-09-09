@@ -12,7 +12,7 @@ and does everything below for you.
 
 - **Python 3.11+** — `python --version`
 - **An AI coding agent** — [Claude Code](https://claude.com/claude-code) or Codex
-- `pip install openpyxl`
+- `pip install -r requirements.txt`
 
 **One of these two, for building the CV**
 
@@ -25,7 +25,8 @@ and does everything below for you.
 
 **Optional but recommended**
 
-- `pip install pypdf` — a more reliable page count on the HTML path
+- `pip install pypdf` — a more reliable page count on the HTML path. `requirements.txt`
+  lists it, commented out, alongside the other optional extras
 
 ### If you chose MiKTeX, do this now
 

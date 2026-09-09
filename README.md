@@ -152,6 +152,19 @@ trackers/            generates Job_Tracker.xlsx + Contacts.xlsx
 Everything personal is gitignored. Push this repo and your CV, trackers, profile and config
 stay behind.
 
+## Your data
+
+Nothing here has an account, a server, or any telemetry. Your CV, your trackers and your
+contacts are gitignored and stay on your machine — but your CV does go to whoever runs your
+AI model, because the agent has to read it to tailor it. [PRIVACY.md](PRIVACY.md) is the
+full account, including what you owe the real people who end up in `Contacts.xlsx`.
+
+## Contributing
+
+The most useful thing you can add is a job source for your own country — the two shipped
+adapters cover remote-worldwide and Europe, and everywhere else is a gap. About thirty lines:
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Licence
 
 MIT.

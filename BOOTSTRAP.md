@@ -192,14 +192,15 @@ blocker" is worth more than a paragraph of nuance.
 **Their CV** into `cv/`:
 - Already `.tex` or `.html` → copy it in as-is. **Do not restructure it.** Its formatting is
   the reason this repo exists.
-- Any other format → extract the content into `cv/templates/master_cv.html` and save as
-  `cv/master_cv.html`. Tell them plainly that the layout will not match their original, and
-  that converting their own design to LaTeX or HTML gets it back.
+- Any other format → fill in a **copy** of `cv/templates/master_cv.html` and save it as
+  `cv/master_cv.html`. Never write real content into `cv/templates/` — those files are
+  tracked and get pushed. Tell them plainly that the layout will not match their original,
+  and that converting their own design to LaTeX or HTML gets it back.
 
 Then build it, and **do not continue until it is one page**:
 
 ```bash
-python cv/build.py --template cv/master_cv.tex
+python cv/build.py --template cv/master_cv.tex     # or cv/master_cv.html
 ```
 
 If it overflows, cut with them. Never raise `--max-pages`, never shrink the font — a master

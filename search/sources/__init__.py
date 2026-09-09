@@ -15,8 +15,9 @@ Each returned dict must have these keys:
 
 Anything else you add is passed through untouched and shows up in the dashboard.
 
-This repo intentionally ships only `csv_import`. Adapters that scrape sites whose
-terms forbid it are yours to write and yours to run - see README.md in this folder.
+This repo ships three adapters, all of which need no account and no API key:
+`himalayas`, `arbeitnow` and `csv_import`. Adapters that scrape sites whose terms
+forbid it are yours to write and yours to run - see README.md in this folder.
 """
 from __future__ import annotations
 
